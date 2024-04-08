@@ -1,4 +1,5 @@
-# SCP - Containment Breach
+# SCP - Containment Breach (Keter Engine)
+A fork of SCP Containment Breach, rewritten for performance. The project is still in it's infancy stage, lots of work needs to be done!
 
 The game is based on the works of the SCP Foundation community (http://www.scp-wiki.net/).
 
