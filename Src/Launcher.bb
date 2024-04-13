@@ -1,17 +1,26 @@
-Local LauncherWidth%= Min(GetINIInt(OptionFile, "launcher", "launcher width"), 1024)
-Local LauncherHeight% = Min(GetINIInt(OptionFile, "launcher", "launcher height"), 768)
-Local LauncherEnabled% = GetINIInt(OptionFile, "launcher", "launcher enabled")
+Dim ArrowIMG(4)
 
 Function Launcher_Start()
+    Local LauncherWidth%= Math_Min(INI_GetInt(OptionFile, "launcher", "launcher width"), 1024)
+    Local LauncherHeight% = Math_Min(INI_GetInt(OptionFile, "launcher", "launcher height"), 768)
+    Local LauncherEnabled% = INI_GetInt(OptionFile, "launcher", "launcher enabled")
+
     If LauncherEnabled Then
-        Graphics3DExt(LauncherWidth, LauncherHeight, 0, 2)
+        Display_Graphics3DExt(LauncherWidth, LauncherHeight, 0, 2)
+        Display_SetAspect(LauncherWidth, LauncherHeight, LauncherWidth, LauncherHeight)
 
         SetBuffer BackBuffer()
 
-        Font1% = LoadFont_Strict("GFX\font\cour\Courier New.ttf", 18, 0,0,0)
-        SetFont Font1
+        ;Font1% = LoadFont_Strict("GFX\font\cour\Courier New.ttf", 18, 0,0,0)
+        ;SetFont Font1
         
-        MaskImage MenuBlack, 255,255,0
+        ;MenuWhite% = LoadImage_Strict("GFX\menu\menuwhite.jpg")
+        ;MenuBlack% = LoadImage_Strict("GFX\menu\menublack.jpg")
+        ;ButtonSFX% = LoadSound_Strict("SFX\Interact\Button.ogg")
+        ;MaskImage MenuBlack, 255,255,0
+
+        UI_Init(False, LauncherHeight, 1)
+
         LauncherIMG% = LoadImage_Strict("GFX\menu\launcher.jpg")
         Local i%	
         
@@ -36,13 +45,11 @@ Function Launcher_Start()
         
         BlinkMeterIMG% = LoadImage_Strict("GFX\blinkmeter.jpg")
         
-        AppTitle "SCP - Containment Breach Launcher"
+        AppTitle "SCP - Containment Breach (Keter Engine) Launcher"
 
         Repeat
             Color 0,0,0
             Rect 0,0,LauncherWidth,LauncherHeight,True
-            
-            MouseHit1 = MouseHit(1)
             
             Color 255, 255, 255
             DrawImage(LauncherIMG, 0, 0)
@@ -61,7 +68,7 @@ Function Launcher_Start()
                 If MouseOn(x - 1, y - 1, 100, 20) Then
                     Color 100, 100, 100
                     Rect(x - 1, y - 1, 100, 20, False)
-                    If MouseHit1 Then SelectedGFXMode = i
+                    If Input_MouseDown() Then SelectedGFXMode = i
                 EndIf
                 
                 y=y+20
@@ -84,7 +91,7 @@ Function Launcher_Start()
                 If MouseOn(x - 1, y - 1, 290, 20) Then
                     Color 100, 100, 100
                     Rect(x - 1, y - 1, 290, 20, False)
-                    If MouseHit1 Then SelectedGFXDriver = i
+                    If Input_MouseDown() Then SelectedGFXDriver = i
                 EndIf
                 
                 y=y+20
@@ -156,44 +163,44 @@ Function Launcher_Start()
             Flip
         Forever
         
-        PutINIValue(OptionFile, "options", "width", GfxModeWidths(SelectedGFXMode))
-        PutINIValue(OptionFile, "options", "height", GfxModeHeights(SelectedGFXMode))
+        INI_PutValue(OptionFile, "options", "width", GfxModeWidths(SelectedGFXMode))
+        INI_PutValue(OptionFile, "options", "height", GfxModeHeights(SelectedGFXMode))
         If Fullscreen Then
-            PutINIValue(OptionFile, "options", "fullscreen", "true")
+            INI_PutValue(OptionFile, "options", "fullscreen", "true")
         Else
-            PutINIValue(OptionFile, "options", "fullscreen", "false")
+            INI_PutValue(OptionFile, "options", "fullscreen", "false")
         EndIf
         If LauncherEnabled Then
-            PutINIValue(OptionFile, "launcher", "launcher enabled", "true")
+            INI_PutValue(OptionFile, "launcher", "launcher enabled", "true")
         Else
-            PutINIValue(OptionFile, "launcher", "launcher enabled", "false")
+            INI_PutValue(OptionFile, "launcher", "launcher enabled", "false")
         EndIf
         If BorderlessWindowed Then
-            PutINIValue(OptionFile, "options", "borderless windowed", "true")
+            INI_PutValue(OptionFile, "options", "borderless windowed", "true")
         Else
-            PutINIValue(OptionFile, "options", "borderless windowed", "false")
+            INI_PutValue(OptionFile, "options", "borderless windowed", "false")
         EndIf
         If Bit16Mode Then
-            PutINIValue(OptionFile, "options", "16bit", "true")
+            INI_PutValue(OptionFile, "options", "16bit", "true")
         Else
-            PutINIValue(OptionFile, "options", "16bit", "false")
+            INI_PutValue(OptionFile, "options", "16bit", "false")
         EndIf
-        PutINIValue(OptionFile, "options", "gfx driver", SelectedGFXDriver)
+        INI_PutValue(OptionFile, "options", "gfx driver", SelectedGFXDriver)
         If UpdateCheckEnabled Then
-            PutINIValue(OptionFile, "options", "check for updates", "true")
+            INI_PutValue(OptionFile, "options", "check for updates", "true")
         Else
-            PutINIValue(OptionFile, "options", "check for updates", "false")
+            INI_PutValue(OptionFile, "options", "check for updates", "false")
         EndIf
     EndIf
 End Function
 
 Function Launcher_PlayStartupVideos()
 	
-	If GetINIInt("options.ini","options","play startup video")=0 Then Return
+	If INI_GetInt("options.ini","options","play startup video")=0 Then Return
 	
 	Local Cam = CreateCamera() 
 	CameraClsMode Cam, 0, 1
-	Local Quad = CreateQuad()
+	Local Quad = Math_CreateQuad()
 	Local Texture = CreateTexture(2048, 2048, 256 Or 16 Or 32)
 	EntityTexture Quad, Texture
 	EntityFX Quad, 1
@@ -202,12 +209,12 @@ Function Launcher_PlayStartupVideos()
 	EntityParent Quad, Cam, 1
 	
 	Local ScaledGraphicHeight%
-	Local Ratio# = Float(RealGraphicWidth)/Float(RealGraphicHeight)
+	Local Ratio# = Float(Display_RealGraphicWidth)/Float(Display_RealGraphicHeight)
 	If Ratio>1.76 And Ratio<1.78
-		ScaledGraphicHeight = RealGraphicHeight
+		ScaledGraphicHeight = Display_RealGraphicHeight
 		DebugLog "Not Scaled"
 	Else
-		ScaledGraphicHeight% = Float(RealGraphicWidth)/(16.0/9.0)
+		ScaledGraphicHeight% = Float(Display_RealGraphicWidth)/(16.0/9.0)
 		DebugLog "Scaled: "+ScaledGraphicHeight
 	EndIf
 	
@@ -222,7 +229,7 @@ Function Launcher_PlayStartupVideos()
 	Local SplashScreenAudio = StreamSound_Strict(moviefile$+".ogg",SFXVolume,0)
 	Repeat
 		Cls
-		ProjectImage(image, RealGraphicWidth, ScaledGraphicHeight, Quad, Texture)
+		Math_ProjectImage(image, RealGraphicWidth, ScaledGraphicHeight, Quad, Texture)
 		Flip
 	Until (GetKey() Or (Not IsStreamPlaying_Strict(SplashScreenAudio)))
 	StopStream_Strict(SplashScreenAudio)
@@ -244,7 +251,7 @@ Function Launcher_PlayStartupVideos()
 	SplashScreenAudio = StreamSound_Strict(moviefile$+".ogg",SFXVolume,0)
 	Repeat
 		Cls
-		ProjectImage(image, RealGraphicWidth, ScaledGraphicHeight, Quad, Texture)
+		Math_ProjectImage(image, RealGraphicWidth, ScaledGraphicHeight, Quad, Texture)
 		Flip
 	Until (GetKey() Or (Not IsStreamPlaying_Strict(SplashScreenAudio)))
 	StopStream_Strict(SplashScreenAudio)

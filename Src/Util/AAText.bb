@@ -1,4 +1,4 @@
-Global AATextEnable% = GetINIInt(OptionFile, "options", "antialiased text")
+Global AATextEnable% = INI_GetInt(OptionFile, "options", "antialiased text")
 Global AASelectedFont%
 Global AATextCam%,AATextSprite%[150]
 Global AACharW%,AACharH%

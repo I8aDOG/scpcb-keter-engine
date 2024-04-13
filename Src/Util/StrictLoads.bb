@@ -64,7 +64,7 @@ Function PlaySound_Strict%(sndHandle%)
 				If Not ChannelPlaying(snd\channels[i]) Then
 					If snd\internalHandle = 0 Then
 						If FileType(snd\name) <> 1 Then
-							CreateConsoleMsg("Sound " + Chr(34) + snd\name + Chr(34) + " not found.")
+							;CreateConsoleMsg("Sound " + Chr(34) + snd\name + Chr(34) + " not found.")
 							If ConsoleOpening
 								ConsoleOpen = True
 							EndIf
@@ -72,7 +72,7 @@ Function PlaySound_Strict%(sndHandle%)
 							If EnableSFXRelease Then snd\internalHandle = LoadSound(snd\name)
 						EndIf
 						If snd\internalHandle = 0 Then
-							CreateConsoleMsg("Failed to load Sound: " + Chr(34) + snd\name + Chr(34))
+							;CreateConsoleMsg("Failed to load Sound: " + Chr(34) + snd\name + Chr(34))
 							If ConsoleOpening
 								ConsoleOpen = True
 							EndIf
@@ -90,7 +90,7 @@ Function PlaySound_Strict%(sndHandle%)
 			Else
 				If snd\internalHandle = 0 Then
 					If FileType(snd\name) <> 1 Then
-						CreateConsoleMsg("Sound " + Chr(34) + snd\name + Chr(34) + " not found.")
+						;CreateConsoleMsg("Sound " + Chr(34) + snd\name + Chr(34) + " not found.")
 						If ConsoleOpening
 							ConsoleOpen = True
 						EndIf
@@ -99,7 +99,7 @@ Function PlaySound_Strict%(sndHandle%)
 					EndIf
 						
 					If snd\internalHandle = 0 Then
-						CreateConsoleMsg("Failed to load Sound: " + Chr(34) + snd\name + Chr(34))
+						;CreateConsoleMsg("Failed to load Sound: " + Chr(34) + snd\name + Chr(34))
 						If ConsoleOpening
 							ConsoleOpen = True
 						EndIf
@@ -152,7 +152,7 @@ End Type
 
 Function StreamSound_Strict(file$,volume#=1.0,custommode=Mode)
 	If FileType(file$)<>1
-		CreateConsoleMsg("Sound " + Chr(34) + file$ + Chr(34) + " not found.")
+		;CreateConsoleMsg("Sound " + Chr(34) + file$ + Chr(34) + " not found.")
 		If ConsoleOpening
 			ConsoleOpen = True
 		EndIf
@@ -163,7 +163,7 @@ Function StreamSound_Strict(file$,volume#=1.0,custommode=Mode)
 	st\sfx = FSOUND_Stream_Open(file$,custommode,0)
 	
 	If st\sfx = 0
-		CreateConsoleMsg("Failed to stream Sound (returned 0): " + Chr(34) + file$ + Chr(34))
+		;CreateConsoleMsg("Failed to stream Sound (returned 0): " + Chr(34) + file$ + Chr(34))
 		If ConsoleOpening
 			ConsoleOpen = True
 		EndIf
@@ -173,7 +173,7 @@ Function StreamSound_Strict(file$,volume#=1.0,custommode=Mode)
 	st\chn = FSOUND_Stream_Play(FreeChannel,st\sfx)
 	
 	If st\chn = -1
-		CreateConsoleMsg("Failed to stream Sound (returned -1): " + Chr(34) + file$ + Chr(34))
+		;CreateConsoleMsg("Failed to stream Sound (returned -1): " + Chr(34) + file$ + Chr(34))
 		If ConsoleOpening
 			ConsoleOpen = True
 		EndIf
@@ -190,11 +190,11 @@ Function StopStream_Strict(streamHandle%)
 	Local st.Stream = Object.Stream(streamHandle)
 	
 	If st = Null
-		CreateConsoleMsg("Failed to stop stream Sound: Unknown Stream")
+		;CreateConsoleMsg("Failed to stop stream Sound: Unknown Stream")
 		Return
 	EndIf
 	If st\chn=0 Or st\chn=-1
-		CreateConsoleMsg("Failed to stop stream Sound: Return value "+st\chn)
+		;CreateConsoleMsg("Failed to stop stream Sound: Return value "+st\chn)
 		Return
 	EndIf
 	
@@ -209,11 +209,11 @@ Function SetStreamVolume_Strict(streamHandle%,volume#)
 	Local st.Stream = Object.Stream(streamHandle)
 	
 	If st = Null
-		CreateConsoleMsg("Failed to set stream Sound volume: Unknown Stream")
+		;CreateConsoleMsg("Failed to set stream Sound volume: Unknown Stream")
 		Return
 	EndIf
 	If st\chn=0 Or st\chn=-1
-		CreateConsoleMsg("Failed to set stream Sound volume: Return value "+st\chn)
+		;CreateConsoleMsg("Failed to set stream Sound volume: Return value "+st\chn)
 		Return
 	EndIf
 	
@@ -226,11 +226,11 @@ Function SetStreamPaused_Strict(streamHandle%,paused%)
 	Local st.Stream = Object.Stream(streamHandle)
 	
 	If st = Null
-		CreateConsoleMsg("Failed to pause/unpause stream Sound: Unknown Stream")
+		;CreateConsoleMsg("Failed to pause/unpause stream Sound: Unknown Stream")
 		Return
 	EndIf
 	If st\chn=0 Or st\chn=-1
-		CreateConsoleMsg("Failed to pause/unpause stream Sound: Return value "+st\chn)
+		;CreateConsoleMsg("Failed to pause/unpause stream Sound: Return value "+st\chn)
 		Return
 	EndIf
 	
@@ -242,11 +242,11 @@ Function IsStreamPlaying_Strict(streamHandle%)
 	Local st.Stream = Object.Stream(streamHandle)
 	
 	If st = Null
-		CreateConsoleMsg("Failed to find stream Sound: Unknown Stream")
+		;CreateConsoleMsg("Failed to find stream Sound: Unknown Stream")
 		Return
 	EndIf
 	If st\chn=0 Or st\chn=-1
-		CreateConsoleMsg("Failed to find stream Sound: Return value "+st\chn)
+		;CreateConsoleMsg("Failed to find stream Sound: Return value "+st\chn)
 		Return
 	EndIf
 	
@@ -258,11 +258,11 @@ Function SetStreamPan_Strict(streamHandle%,pan#)
 	Local st.Stream = Object.Stream(streamHandle)
 	
 	If st = Null
-		CreateConsoleMsg("Failed to find stream Sound: Unknown Stream")
+		;CreateConsoleMsg("Failed to find stream Sound: Unknown Stream")
 		Return
 	EndIf
 	If st\chn=0 Or st\chn=-1
-		CreateConsoleMsg("Failed to find stream Sound: Return value "+st\chn)
+		;CreateConsoleMsg("Failed to find stream Sound: Return value "+st\chn)
 		Return
 	EndIf
 	
@@ -277,7 +277,7 @@ End Function
 
 Function UpdateStreamSoundOrigin(streamHandle%,cam%,entity%,range#=10,volume#=1.0)
 	;Local st.Stream = Object.Stream(streamHandle)
-	range# = Max(range,1.0)
+	range# = Math_Max(range,1.0)
 	
 	If volume>0 Then
 		
