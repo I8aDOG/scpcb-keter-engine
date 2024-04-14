@@ -68,7 +68,7 @@ Function Launcher_Start()
                 If MouseOn(x - 1, y - 1, 100, 20) Then
                     Color 100, 100, 100
                     Rect(x - 1, y - 1, 100, 20, False)
-                    If Input_MouseDown() Then SelectedGFXMode = i
+                    If Input_WasPressedThisFrame("mouse_left") Then SelectedGFXMode = i
                 EndIf
                 
                 y=y+20
@@ -91,7 +91,7 @@ Function Launcher_Start()
                 If MouseOn(x - 1, y - 1, 290, 20) Then
                     Color 100, 100, 100
                     Rect(x - 1, y - 1, 290, 20, False)
-                    If Input_MouseDown() Then SelectedGFXDriver = i
+                    If Input_WasPressedThisFrame("mouse_left") Then SelectedGFXDriver = i
                 EndIf
                 
                 y=y+20
@@ -152,10 +152,10 @@ Function Launcher_Start()
             Text LauncherWidth-250,LauncherHeight-30,"launch"
             
             If DrawButton(LauncherWidth - 30 - 90, LauncherHeight - 50 - 55, 100, 30, "LAUNCH", False, False, False) Then
-                GraphicWidth = GfxModeWidths(SelectedGFXMode)
-                GraphicHeight = GfxModeHeights(SelectedGFXMode)
-                RealGraphicWidth = GraphicWidth
-                RealGraphicHeight = GraphicHeight
+                Display_GraphicWidth = GfxModeWidths(SelectedGFXMode)
+                Display_GraphicHeight = GfxModeHeights(SelectedGFXMode)
+                Display_RealGraphicWidth = Display_GraphicWidth
+                Display_RealGraphicHeight = Display_GraphicHeight
                 Exit
             EndIf
             

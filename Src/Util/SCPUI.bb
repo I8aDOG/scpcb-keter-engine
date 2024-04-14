@@ -100,13 +100,13 @@ Function InputBox$(x%, y%, width%, height%, Txt$, ID% = 0)
 	If MouseOn(x, y, width, height) Then
 		Color(50, 50, 50)
 		MouseOnBox = True
-		If Input_IsPressedThisFrame("mouse_left") Then SelectedInputBox = ID : FlushKeys
+		If Input_WasPressedThisFrame("mouse_left") Then SelectedInputBox = ID : FlushKeys
 	EndIf
 	
 	Rect(x + 2, y + 2, width - 4, height - 4)
 	Color (255, 255, 255)	
 	
-	If (Not MouseOnBox) And Input_IsPressedThisFrame("mouse_left") And SelectedInputBox = ID Then SelectedInputBox = 0
+	If (Not MouseOnBox) And Input_WasPressedThisFrame("mouse_left") And SelectedInputBox = ID Then SelectedInputBox = 0
 	
 	If SelectedInputBox = ID Then
 		Txt = rInput(Txt)
@@ -130,7 +130,7 @@ Function DrawButton%(x%, y%, width%, height%, txt$, bigfont% = True, waitForMous
 	DrawFrame (x, y, width, height)
 	If MouseOn(x, y, width, height) Then
 		Color(30, 30, 30)
-		If (Input_IsPressedThisFrame("mouse_left") And (Not waitForMouseUp)) Or (MouseUp1 And waitForMouseUp) Then 
+		If (Input_WasPressedThisFrame("mouse_left") And (Not waitForMouseUp)) Or (Input_WasReleasedThisFrame("mouse_left") And waitForMouseUp) Then 
 			clicked = True
 			PlaySound_Strict(UI_ButtonSFX)
 		EndIf
@@ -155,7 +155,7 @@ Function DrawButton2%(x%, y%, width%, height%, txt$, bigfont% = True)
 	Local clicked% = False
 	
 	DrawFrame (x, y, width, height)
-	Local hit% = Input_IsPressedThisFrame("mouse_left") ; MouseHit(1)
+	Local hit% = Input_WasPressedThisFrame("mouse_left") ; MouseHit(1)
 	If MouseOn(x, y, width, height) Then
 		Color(30, 30, 30)
 		If hit Then clicked = True : PlaySound_Strict(UI_ButtonSFX)
@@ -182,7 +182,7 @@ Function DrawTick%(x%, y%, selected%, locked% = False)
 	
 	If Highlight Then
 		Color(50, 50, 50)
-		If Input_IsPressedThisFrame("mouse_left") Then selected = (Not selected) : PlaySound_Strict (UI_ButtonSFX)
+		If Input_WasPressedThisFrame("mouse_left") Then selected = (Not selected) : PlaySound_Strict (UI_ButtonSFX)
 	Else
 		Color(0, 0, 0)		
 	End If

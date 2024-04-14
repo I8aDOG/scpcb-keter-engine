@@ -59,7 +59,7 @@ Const HIT_MAP% = 1, HIT_PLAYER% = 2, HIT_ITEM% = 3, HIT_APACHE% = 4, HIT_178% = 
 SeedRnd MilliSecs()
 
 AppTitle "SCP - Containment Breach v"+VersionNumber+" (Keter Engine)"
+Display_Init()
 
-Launcher_Start()
 Launcher_PlayStartupVideos()
 
