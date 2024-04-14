@@ -1,4 +1,4 @@
-Dim KeyValue$(211)
+Dim KeyValue$(211+5)
 KeyValue(1)="key_esc"
 For i = 2 To 10
 	KeyValue(i)="key_alpha_"+Str(i-1)
@@ -66,6 +66,11 @@ KeyValue(200)="key_up"
 KeyValue(203)="key_left"
 KeyValue(205)="key_right"
 KeyValue(208)="key_down"
+KeyValue(212)="mouse_left"
+KeyValue(213)="mouse_right"
+KeyValue(214)="mouse_middle"
+KeyValue(215)="mouse_x"
+KeyValue(216)="mouse_y"
 
 Dim KeyName$(211)
 KeyName(1)="ESC"

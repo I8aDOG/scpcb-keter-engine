@@ -161,6 +161,8 @@ Function Launcher_Start()
             
             If DrawButton(LauncherWidth - 30 - 90, LauncherHeight - 50, 100, 30, "EXIT", False, False, False) Then End
             Flip
+
+            Input_Update()
         Forever
         
         INI_PutValue(OptionFile, "options", "width", GfxModeWidths(SelectedGFXMode))
